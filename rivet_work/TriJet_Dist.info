@@ -1,0 +1,11 @@
+Name: TriJet_Dist
+Summary:  MC testing analysis -- DEPRECATED, use MC_FSPARTICLES
+Status: VALIDATED
+Reentrant: true
+Authors:
+ - Mohamed Gamal <Mohamed Gamal@cern.ch>
+
+NumEvents: 50000000
+RunInfo: Any!
+Description:
+TriJet azimuthal correlations in in p-p
