@@ -1,0 +1,3 @@
+#insert /Herwig/Analysis/RivetAnalysis:Analyses 0 TriJet_Cross #incjet
+insert /Herwig/Analysis/RivetAnalysis:Analyses 0 TriJet_Dist #dijet
+#insert /Herwig/Analysis/RivetAnalysis:Analyses 0 TriJet_Norm #dijet

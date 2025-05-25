@@ -1,0 +1,64 @@
+# -*- ThePEG-repository -*-
+##################################################
+# Technical parameters for this run
+##################################################
+read snippets/PPCollider.in
+cd /Herwig/Generators
+#set EventGenerator:MaxErrors 1000000
+set EventGenerator:EventHandler:StatLevel Full
+set /Herwig/Decays/DecayHandler:MaxLifeTime 10*mm
+##################################################
+#  Create the Herwig analysis
+##################################################
+cd /Herwig/MatrixElements
+set /Herwig/Generators/EventGenerator:EventHandler:LuminosityFunction:Energy 13600.0
+insert SubProcess:MatrixElements[0] MEQCD2to2
+set MEQCD2to2:MaximumFlavour 5
+set /Herwig/UnderlyingEvent/MPIHandler:IdenticalToUE 0
+set /Herwig/Partons/RemnantDecayer:AllowTop Yes
+
+##################################################
+#  PDFSet
+##################################################
+cd /Herwig/Partons
+create ThePEG::LHAPDF PDFSet ThePEGLHAPDF.so
+set PDFSet:PDFName NNPDF23_nlo_as_0119_qed.LHgrid
+set PDFSet:RemnantHandler HadronRemnants
+set /Herwig/Particles/p+:PDF PDFSet
+set /Herwig/Particles/pbar-:PDF PDFSet
+cd /
+
+##################################################
+# Cut Block
+##################################################
+
+set /Herwig/Cuts/JetKtCut:MinKT 15.*GeV
+set /Herwig/Cuts/JetKtCut:MaxKT 1000.*GeV
+#set /Herwig/Cuts/JetKtCut:MinEta -5.
+#set /Herwig/Cuts/JetKtCut:MaxEta  5.
+#set /Herwig/Cuts/Cuts:MHatMin 15.*GeV
+#set /Herwig/Cuts/Cuts:MHatMax 1000.*GeV
+
+cd /Herwig/Generators
+
+##################################################
+# Rivet block
+##################################################
+
+create ThePEG::RivetAnalysis /Herwig/Analysis/RivetAnalysis RivetAnalysis.so
+insert EventGenerator:AnalysisHandlers 0 /Herwig/Analysis/RivetAnalysis
+set /Herwig/Analysis/RivetAnalysis:Debug No
+read Rivet.ana
+
+##################################################
+# HepMC block
+##################################################
+
+#read snippets/HepMC.in
+#set /Herwig/Analysis/HepMC:PrintEvent 10
+
+##################################################
+# Save run for later usage with 'Herwig run'
+##################################################
+cd /Herwig/Generators
+saverun Dijets EventGenerator
